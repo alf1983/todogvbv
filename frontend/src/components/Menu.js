@@ -1,20 +1,24 @@
 import React from 'react'
-
+import {Link} from "react-router-dom";
 
 
 const Menu = () => {
     return (
-        <table width={"100%"}>
-            <th>
-                <a href="#">Все пользователи</a>
-            </th>
-            <th>
-                <a href="#">Задачи</a>
-            </th>
-            <th>
-                <a href="#">Выполненые</a>
-            </th>
-        </table>
+
+            <nav>
+                <table width={"100%"}>
+                    <th>
+                        <Link to='/'>Пользователи</Link>
+                    </th>
+                    <th>
+                        <Link to='/Projects'>Проекты</Link>
+                    </th>
+                    <th>
+                        <Link to='/ToDo'>ToDo</Link>
+                    </th>
+                </table>
+            </nav>
+
         )
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 
 
 const UsersItem = ({user}) => {
+    //console.log(user)
     return (
         <tr>
             <td>
@@ -21,6 +22,8 @@ const UsersItem = ({user}) => {
 }
 
 const UsersList = ({users}) => {
+    //console.log(users)
+    //console.log("hello")
     return (
         <table align={"center"} width={"75%"} border={1}>
             <thead>
