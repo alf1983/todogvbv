@@ -5,7 +5,7 @@ const ProjectInfo = ({projects}) => {
 
     let { id } = useParams();
     //console.log(projects)
-    let project = projects.find(((item) => item.id == id))
+    let project = projects.find(((item) => item.id === id))
     //console.log(project)
     return (
         <table align={"center"} width={"75%"} border={1}>

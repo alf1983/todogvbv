@@ -2,7 +2,8 @@ import React from 'react'
 import {Link} from "react-router-dom";
 
 
-const Menu = () => {
+const Menu = ({cls}) => {
+
     return (
 
             <nav>
@@ -15,6 +16,12 @@ const Menu = () => {
                     </th>
                     <th>
                         <Link to='/ToDo'>ToDo</Link>
+                    </th>
+                    <th>
+                        {cls.is_authenticated() ? <span>{cls.state.username}</span> : <span></span>}
+                    </th>
+                    <th>
+                        {cls.is_authenticated() ?  <button onClick={()=>cls.logout()}> Logout</button> : <Link to='/login'>Login</Link>}
                     </th>
                 </table>
             </nav>
