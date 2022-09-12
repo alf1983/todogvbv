@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import permissions
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 from todousers.views import UsersCustomViewSet
@@ -22,6 +23,20 @@ from todo.views import ProjectParamFilterModelViewSet, ToDoModelViewSet
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+)
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='TODO',
+        default_version='1.0',
+        description='TODO documentation',
+        contact=openapi.Contact(name='Vasea', email='admin@todobv.site'),
+        license=openapi.License(name='MIT License')
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny]
 )
 
 router = DefaultRouter()
@@ -35,4 +50,5 @@ urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

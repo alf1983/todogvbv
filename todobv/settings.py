@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # myapps
     'rest_framework',
     'django_filters',
+    'drf_yasg',
     'corsheaders',
     'todousers',
     'todo',
@@ -88,7 +89,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-]
+    ],
+    'DEFAULT_VERSIONING_CLASS':
+        'rest_framework.versioning.QueryParameterVersioning',
 }
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
