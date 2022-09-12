@@ -13,9 +13,9 @@ class Project(models.Model):
 
 
 class ToDo(models.Model):
-    project = models.OneToOneField(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text_note = models.TextField(verbose_name='текст заметки')
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    user_author = models.OneToOneField(Users, on_delete=models.CASCADE, verbose_name='создатель')
+    user_author = models.ManyToManyField(Users, verbose_name='создатель')
     is_active = models.BooleanField(verbose_name='активно', default=True)
