@@ -1,0 +1,8 @@
+.DS_Store
+__paycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+.idea!/.env
+.env
+.gitignore

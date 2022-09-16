@@ -1,0 +1,19 @@
+{
+  usersByTodo(id:1){
+    username
+    email
+  }
+}
+
+{
+  allTodos{
+    textNote
+    updated
+    project{
+      users{
+        username
+        email
+      }
+    }
+  }
+}
