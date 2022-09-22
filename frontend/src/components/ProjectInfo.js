@@ -1,11 +1,11 @@
 import React from "react";
 import { useParams } from 'react-router-dom'
 
-const ProjectInfo = ({projects}) => {
+const ProjectInfo = ({projects, deleteProject}) => {
 
     let { id } = useParams();
     //console.log(projects)
-    let project = projects.find(((item) => item.id === id))
+    const project = projects.find((item) => item.id === parseInt(id))
     //console.log(project)
     return (
         <table align={"center"} width={"75%"} border={1}>
@@ -19,6 +19,9 @@ const ProjectInfo = ({projects}) => {
                 <th>
                     Project Users
                 </th>
+                <th>
+                    Action
+                </th>
             </thead>
             <tbody>
                 <tr>
@@ -30,6 +33,9 @@ const ProjectInfo = ({projects}) => {
                     </td>
                     <td>
                         {project.users}
+                    </td>
+                    <td>
+                        <button onClick={() => deleteProject(project.id)} type={"button"}>Delete</button>
                     </td>
                 </tr>
             </tbody>

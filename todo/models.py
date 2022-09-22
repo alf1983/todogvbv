@@ -17,5 +17,5 @@ class ToDo(models.Model):
     text_note = models.TextField(verbose_name='текст заметки')
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    user_author = models.ManyToManyField(Users, verbose_name='создатель')
+    user_author = models.ForeignKey(Users, verbose_name='создатель', on_delete=models.CASCADE, default=1)
     is_active = models.BooleanField(verbose_name='активно', default=True)

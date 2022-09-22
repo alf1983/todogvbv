@@ -11,6 +11,7 @@ import ToDo from "./components/ToDo";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie";
+import ToDoForm from "./components/ToDoForm";
 
 const NotFound404 = ({ location }) => {
   return (
@@ -62,7 +63,7 @@ class App extends React.Component {
         }
         axios.post('http://127.0.0.1:7000/api-token-auth/', data).then(response =>{
                 this.set_token(response.data['token'], username)
-            }).catch(error => alert('Неверный логин или пароль'))
+            }).catch( error => alert('Неверный логин или пароль'))
     }
 
     get_headers(){
@@ -77,6 +78,7 @@ class App extends React.Component {
 
     load_data() {
         const headers = this.get_headers()
+        // console.log(headers)
         axios.get('http://127.0.0.1:7000/api/todousers/', {headers}).then(response =>{
                 const users = response.data.results;
                 this.setState(  {
@@ -100,13 +102,40 @@ class App extends React.Component {
             //console.log(this.state)
         })
     }
+
+    deleteProject(id){
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:7000/api/projects/${id}`, {headers}).then(response =>{
+            this.setState({'projects': this.state.projects.filter((item) => item.id !== id)})
+        }).catch(error => console.log(error))
+
+    }
+    deleteToDo(id){
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:7000/api/ToDo/${id}`, {headers}).then(response =>{
+            this.setState({'ToDos': this.state.ToDos.filter((item) => item.id !== id)})
+        }).catch(error => console.log(error))
+
+    }
+    createToDo(project, todo_note, todo_author_username){
+        const headers = this.get_headers()
+        let tudo_author = this.state.users.find((item) => item.username === todo_author_username)
+        const data = {'project': project, 'text_note': todo_note, 'user_author': tudo_author.id}
+        // console.log(data)
+        axios.post(`http://127.0.0.1:7000/api/ToDo/`, data, {headers}).then(response =>{
+            let new_todo = response.data
+            this.setState({
+                'ToDos':[...this.state.ToDos, new_todo]
+            })
+        }).catch(error => console.log(error))
+    }
     componentDidMount() {
         this.get_token_from_storage()
         // this.load_data()
     }
 
     render () {
-        //console.log(this.state.username)
+        //console.log(this.state.projects)
         return (
             <div>
 
@@ -114,9 +143,10 @@ class App extends React.Component {
                     <Menu cls={this}/>
                     <Routes>
                         <Route exact path='/' element={<Users users={this.state.users}/>}/>
-                        <Route exact path='Projects' element={<Projects projects={this.state.projects}/>}/>
-                        <Route path='project/:id' element={<ProjectInfo projects={this.state.projects}/>}/>
-                        <Route exact path='ToDo' element={<ToDo todos={this.state.ToDos}/>}/>
+                        <Route exact path='Projects' element={<Projects projects={this.state.projects} deleteProject = {(id) => this.deleteProject(id)}/>}/>
+                        <Route path='project/:id' element={<ProjectInfo projects={this.state.projects} deleteProject = {(id) => this.deleteProject(id)}/>}/>
+                        <Route exact path='/ToDo/create' element={<ToDoForm projects={this.state.projects} todo_author={this.state.username} createTodo = {(project, text_note) => this.createToDo(project, text_note, this.state.username)}/>}/>
+                        <Route exact path='ToDo' element={<ToDo todos={this.state.ToDos} deleteToDo = {(id) => this.deleteToDo(id)}/>}/>
                         <Route exact path='Login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)}/>}/>
                         <Route path="*" element={
                             <NotFound404/>
